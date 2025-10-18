@@ -1,0 +1,55 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    volumes:
+      # Mount source code for hot reload in development
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - quiz-network
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - FRONTEND_ORIGIN=http://localhost:3000
+    volumes:
+      # Mount source code for hot reload in development
+      - ./backend:/code
+    networks:
+      - quiz-network
+  # Uncomment to add database
+  # depends_on:
+  # - postgres
+  # Uncomment to add PostgreSQL
+  # postgres:
+  # image: postgres:15-alpine
+  # environment:
+  # - POSTGRES_USER=quiz_user
+  # - POSTGRES_PASSWORD=quiz_password
+  # - POSTGRES_DB=quiz_db
+  # ports:
+  # - "5432:5432"
+  # volumes:
+  # - postgres_data:/var/lib/postgresql/data
+  # - quiz-network
+networks:
+  quiz-network:
+    driver: bridge
+  # Uncomment if using postgres
+  # volumes:
+  # postgres_data:
