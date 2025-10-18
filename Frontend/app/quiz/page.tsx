@@ -113,12 +113,13 @@ export default function QuizPage() {
     setError(null);
 
     try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const formattedAnswers = questions.map((_, index) => ({
         question_number: index + 1,
         user_answer: userAnswers[index] || ''
       }));
 
-      const response = await fetch('http://localhost:8000/evaluate', {
+      const response = await fetch(`${API_URL}/evaluate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
