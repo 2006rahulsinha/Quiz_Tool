@@ -38,7 +38,7 @@ export default function SetupPage() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/generate_quiz', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/generate_quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
