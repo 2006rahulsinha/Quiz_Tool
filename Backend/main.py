@@ -20,11 +20,10 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        FRONTEND_ORIGIN,  # From environment variable
-        "https://quiz-tool-b7z67zp00-rahul-sinhas-projects-5b5f067f.vercel.app",  # Your Vercel preview
-        "https://quiz-tool.vercel.app",  # Your production domain (if different)
-        "https://*.vercel.app",  # All Vercel preview deployments
+        "https://quiz-tool-gules.vercel.app",  # Your Vercel production URL
+        "https://*.vercel.app",  # All Vercel preview URLs
         "http://localhost:3000",  # Local development
+        FRONTEND_ORIGIN,  # From environment variable
     ],
     allow_credentials=True,
     allow_methods=["*"],
