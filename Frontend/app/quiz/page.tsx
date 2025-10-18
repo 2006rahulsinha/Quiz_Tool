@@ -40,6 +40,20 @@ export default function QuizPage() {
 
   const question = questions[currentQuestion];
 
+    const calculateCurrentScore = () => {
+    let correctCount = 0;
+    for (let i = 0; i <= currentQuestion; i++) {
+      if (userAnswers[i]) {
+        const q = questions[i];
+        const correctAnswer = (q as any).correctAnswer || (q as any).correct_answer;
+        if (userAnswers[i] === correctAnswer) {
+          correctCount++;
+        }
+      }
+    }
+    return correctCount;
+  };
+  const currentScore = calculateCurrentScore();
   let opts: Record<string, string> = {};
 
   // FIXED: Proper type checking and handling with proper type guards
@@ -155,7 +169,7 @@ export default function QuizPage() {
           className="w-full max-w-3xl"
         >
           {/* Progress Header */}
-          <div className="mb-6">
+           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
               <span
                 className="text-[#FFFF00] text-sm pixel-text"
@@ -167,21 +181,10 @@ export default function QuizPage() {
                 className="text-[#00FF00] text-sm pixel-text"
                 style={{ textShadow: '0 0 5px #00FF00' }}
               >
-                SCORE: {Object.keys(userAnswers).length}/{questions.length}
+                SCORE: {currentScore}/{currentQuestion + 1}
               </span>
             </div>
-            <div className="w-full h-3 bg-black/70 border-2 border-[#00FFFF]">
-              <motion.div
-                className="h-full bg-[#00FFFF]"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  boxShadow: '0 0 10px #00FFFF'
-                }}
-              />
             </div>
-          </div>
 
           {/* Space Battle Animation */}
           <motion.div 
